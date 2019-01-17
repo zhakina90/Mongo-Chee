@@ -1,8 +1,10 @@
 // Dependencies
 var express = require("express");
 var exphbs = require('express-handlebars');
-var mongojs = require("mongojs");
+// var mongojs = require("mongojs");
+var mongoose = require("mongoose");
 
+var PORT = 3000;
 
 var axios = require("axios");
 var cheerio = require("cheerio");
@@ -15,25 +17,26 @@ app.set('view engine', 'handlebars');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 console.log('this is __dirname', __dirname);
+var db = require("./module");
+// console.log(db);
 
 // app.use(express.static(path.join(__dirname, "./public")));
 app.use("/public", express.static(path.join(__dirname, 'public')));
 
-// Database configuration
-var databaseUrl = "article_db";
-var collections = ["articles"];
+
+mongoose.connect("mongodb://localhost/userdb", { useNewUrlParser: true });
 
 
-var db = mongojs(databaseUrl, collections);
-db.on("error", function (error) {
-    console.log("Database Error:", error);
-});
+// var db = mongojs(databaseUrl, collections);
+// db.on("error", function (error) {
+//     console.log("Database Error:", error);
+// });
 
 
 app.get("/", function (req, res) {
     res.render('home');
 });
-// Scrape data from nytimes and place it into the mongodb db
+
 app.get("/scraping-articles", function (req, res) {
     // Make a request via axios for the news section of `ycombinator`
     axios.get("https://www.nytimes.com/").then(function (response) {
@@ -42,7 +45,10 @@ app.get("/scraping-articles", function (req, res) {
         // For each element with a "title" class
         $(".css-z49qw6").each(function (i, element) {
             // Save the text and href of each link enclosed in the current element
-            var article = $(element).attr("h2");
+            var article = $(this).find("article").text().trim();
+            // console.log(article);
+
+            // var article = $(element).attr("article").
             var link = $(element).children("a").attr("href");
             if (article && link) {
                 // Insert the data in the db
@@ -66,13 +72,14 @@ app.get("/scraping-articles", function (req, res) {
     });
 
     // Send a "Scrape Complete" message to the browser
-    res.json("Send");
+    res.render("scraped");
 });
 
+
 // Retrieve data from the db
-app.get("/all", function (req, res) {
-    // Find all results from the scrapedData collection in the db
-    db.articles.find({}, function (error, found) {
+app.get("/all-articles", function (req, res) {
+    // Find all results from the collection in the db
+    db.Articles.find({}, function (error, found) {
         // Throw any errors to the console
         if (error) {
             console.log(error);
@@ -80,6 +87,8 @@ app.get("/all", function (req, res) {
         // If there are no errors, send the data to the browser as json
         else {
             res.json(found);
+            console.log(found);
+
         }
     });
 });

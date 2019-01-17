@@ -1,7 +1,8 @@
-<a class="navbar-brand" href="/">Mongo Scraper</a>
-
-<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+<nav class="nav nav-pills nav-justified">
+    <ul class="nav navnav-tabs">
+        <li class="nav-item active">
+            <a class="navbar-brand">Mongo Scraper</a>
+        </li>
         <li class="nav-item active">
             <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
         </li>
@@ -9,15 +10,22 @@
             <a class="nav-link" href="#">Saved Articles</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/scraping-articles">
                 <button class="scraped-article">Scrape New Article!</button>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">
-                <button class="new-article">Clear Articles!</button>
+                <button class="delete">Clear Articles!</button>
             </a>
         </li>
     </ul>
-</div>
 </nav>
+<div class="jumbotron jumbotron-fluid">
+
+    <div id="images"></div> {{!-- <img class="images" src="../public/images/newspaper-412452__340.jpg"> --}}
+    <div class="container">
+        <h1 class="display-4">Mongo Scraper</h1>
+        <p class="lead">New York Time Edition</p>
+    </div>
+</div>
