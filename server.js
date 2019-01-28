@@ -4,7 +4,7 @@ var exphbs = require('express-handlebars');
 // var mongojs = require("mongojs");
 var mongoose = require("mongoose");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 var axios = require("axios");
 var cheerio = require("cheerio");
@@ -113,6 +113,6 @@ app.get("/clear", function (req, res) {
     });
 });
 
-app.listen(3000, function () {
-    console.log("App running on port 3000!");
+app.listen(PORT, function () {
+    console.log("App running on port" + PORT);
 });
