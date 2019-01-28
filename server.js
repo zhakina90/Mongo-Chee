@@ -24,11 +24,11 @@ var db = require("./module");
 app.use("/public", express.static(path.join(__dirname, 'public')));
 
 
-mongoose.connect("mongodb://localhost/userdb", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost/userdb", { useNewUrlParser: true });
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/userdb";
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
 // var db = mongojs(databaseUrl, collections);
