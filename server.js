@@ -26,6 +26,10 @@ app.use("/public", express.static(path.join(__dirname, 'public')));
 
 mongoose.connect("mongodb://localhost/userdb", { useNewUrlParser: true });
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/userdb";
+
+mongoose.connect(MONGODB_URI)
+
 
 // var db = mongojs(databaseUrl, collections);
 // db.on("error", function (error) {
